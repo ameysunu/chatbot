@@ -9,6 +9,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'DialogFlow and Flutter',
+      theme: ThemeData(),
+      darkTheme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
       home: new HomePageDialogflow(),
     );
@@ -87,12 +89,13 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Hexcolor('#F8F9FA'),
+        backgroundColor: Theme.of(context).cardColor,
+        //backgroundColor: Hexcolor('#F8F9FA'),
         centerTitle: true,
         title: new Text(
           "Flutter Bot",
           style: TextStyle(
-              fontFamily: 'Ubuntu', fontSize: 20, color: Colors.black),
+              fontFamily: 'Ubuntu', fontSize: 20, color: Colors.grey[600]),
         ),
       ),
       body: new Column(children: <Widget>[
@@ -143,7 +146,9 @@ class ChatMessage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: new Text(this.name,
                     style: new TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black)),
+                        fontFamily: 'Ubuntu',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)),
               ),
               new Container(
                 margin: const EdgeInsets.only(top: 5.0),
@@ -151,7 +156,7 @@ class ChatMessage extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                   child: new Text(
                     text,
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(fontFamily: 'Ubuntu', color: Colors.black),
                   ),
                 ),
               ),
@@ -199,14 +204,15 @@ class ChatMessage extends StatelessWidget {
       new Container(
         margin: const EdgeInsets.only(left: 16.0),
         child: new CircleAvatar(
-            backgroundColor: Hexcolor('#1982FC'),
-            child: new Text(
-              this.name[0],
-              style: new TextStyle(
-                  fontFamily: 'Ubuntu',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            )),
+          backgroundColor: Hexcolor('#1982FC'),
+          child: new Text(
+            this.name[0],
+            style: new TextStyle(
+                fontFamily: 'Ubuntu',
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
+        ),
       ),
     ];
   }
