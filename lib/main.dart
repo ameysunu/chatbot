@@ -90,7 +90,6 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: Theme.of(context).cardColor,
-        //backgroundColor: Hexcolor('#F8F9FA'),
         centerTitle: true,
         title: new Text(
           "Flutter Bot",
