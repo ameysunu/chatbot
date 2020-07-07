@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogflow/dialogflow_v2.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 void main() => runApp(new MyApp());
 
@@ -28,28 +29,25 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
   final TextEditingController _textController = new TextEditingController();
 
   Widget _buildTextComposer() {
-    return new IconTheme(
-      data: new IconThemeData(color: Colors.black),
-      child: new Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: new Row(
-          children: <Widget>[
-            new Flexible(
-              child: new TextField(
-                controller: _textController,
-                onSubmitted: _handleSubmitted,
-                decoration:
-                    new InputDecoration.collapsed(hintText: "Send a message"),
-              ),
+    return new Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: new Row(
+        children: <Widget>[
+          new Flexible(
+            child: new TextField(
+              controller: _textController,
+              onSubmitted: _handleSubmitted,
+              decoration:
+                  new InputDecoration.collapsed(hintText: "Send a message"),
             ),
-            new Container(
-              margin: new EdgeInsets.symmetric(horizontal: 4.0),
-              child: new IconButton(
-                  icon: new Icon(Icons.send),
-                  onPressed: () => _handleSubmitted(_textController.text)),
-            ),
-          ],
-        ),
+          ),
+          new Container(
+            margin: new EdgeInsets.symmetric(horizontal: 4.0),
+            child: new IconButton(
+                icon: new Icon(Icons.send),
+                onPressed: () => _handleSubmitted(_textController.text)),
+          ),
+        ],
       ),
     );
   }
@@ -89,9 +87,13 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Hexcolor('#F8F9FA'),
         centerTitle: true,
-        title: new Text("Flutter Bot"),
+        title: new Text(
+          "Flutter Bot",
+          style: TextStyle(
+              fontFamily: 'Ubuntu', fontSize: 20, color: Colors.black),
+        ),
       ),
       body: new Column(children: <Widget>[
         new Flexible(
@@ -125,22 +127,36 @@ class ChatMessage extends StatelessWidget {
         child: new CircleAvatar(
           child: new Text(
             'B',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.black),
           ),
-          backgroundColor: Colors.black,
+          backgroundColor: Hexcolor('#E6E5EB'),
         ),
       ),
       new Expanded(
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Text(this.name,
-                style: new TextStyle(fontWeight: FontWeight.bold)),
-            new Container(
-              margin: const EdgeInsets.only(top: 5.0),
-              child: new Text(text),
-            ),
-          ],
+        child: Card(
+          elevation: 3,
+          color: Hexcolor('#E6E5EB'),
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new Text(this.name,
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black)),
+              ),
+              new Container(
+                margin: const EdgeInsets.only(top: 5.0),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                  child: new Text(
+                    text,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     ];
@@ -149,27 +165,47 @@ class ChatMessage extends StatelessWidget {
   List<Widget> myMessage(context) {
     return <Widget>[
       new Expanded(
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            new Text(this.name,
-                style: TextStyle(
-                    color: Colors.black, fontWeight: FontWeight.bold)),
-            new Container(
-              margin: const EdgeInsets.only(top: 5.0),
-              child: new Text(text),
-            ),
-          ],
+        child: Card(
+          elevation: 3,
+          color: Hexcolor('#1982FC'),
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new Text(this.name,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Ubuntu',
+                        fontWeight: FontWeight.bold)),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 8),
+                child: new Container(
+                  margin: const EdgeInsets.only(top: 5.0),
+                  child: new Text(
+                    text,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Ubuntu',
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       new Container(
         margin: const EdgeInsets.only(left: 16.0),
         child: new CircleAvatar(
-            backgroundColor: Colors.black,
+            backgroundColor: Hexcolor('#1982FC'),
             child: new Text(
               this.name[0],
               style: new TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.white),
+                  fontFamily: 'Ubuntu',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             )),
       ),
     ];
