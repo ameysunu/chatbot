@@ -29,3 +29,6 @@ If you do not retrieve the API from GCP then following will throw up a null valu
 ```
 AIResponse response = await dialogflow.detectIntent(query);
 ```
+## Screenshots
+
+<img src= "images/light.png" width="360" height="720" >   <img src= "images/dark.png" width="360" height="720" > 
