@@ -31,4 +31,4 @@ AIResponse response = await dialogflow.detectIntent(query);
 ```
 ## Screenshots
 
-<img src= "assets/light.png" width="360" height="720" >   <img src= "assets/dark.png" width="360" height="720" > 
+<img src= "assets/light.png" width="414" height="896" >   <img src= "assets/dark.png" width="414" height="896" > 
