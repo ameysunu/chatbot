@@ -36,19 +36,22 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
       child: new Row(
         children: <Widget>[
           new Flexible(
-            child: new TextField(
-              controller: _textController,
-              onSubmitted: _handleSubmitted,
-              decoration:
-                  new InputDecoration.collapsed(hintText: "Send a message"),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: new TextField(
+                controller: _textController,
+                onSubmitted: _handleSubmitted,
+                decoration:
+                    new InputDecoration.collapsed(hintText: "Send a message"),
+              ),
             ),
           ),
           new Container(
-            margin: new EdgeInsets.symmetric(horizontal: 4.0),
-            child: new IconButton(
-                icon: new Icon(Icons.send),
-                onPressed: () => _handleSubmitted(_textController.text)),
-          ),
+          margin: new EdgeInsets.symmetric(horizontal: 4.0),
+          child: new IconButton(
+              icon: new Icon(Icons.send),
+              onPressed: () => _handleSubmitted(_textController.text)),
+            ),
         ],
       ),
     );
@@ -94,7 +97,7 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
         title: new Text(
           "Flutter Bot",
           style: TextStyle(
-              fontFamily: 'Ubuntu', fontSize: 20, color: Colors.grey[600]),
+fontSize: 20, color: Colors.grey[600]),
         ),
       ),
       body: new Column(children: <Widget>[
@@ -145,7 +148,7 @@ class ChatMessage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: new Text(this.name,
                     style: new TextStyle(
-                        fontFamily: 'Ubuntu',
+                       
                         fontWeight: FontWeight.bold,
                         color: Colors.black)),
               ),
@@ -155,7 +158,7 @@ class ChatMessage extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                   child: new Text(
                     text,
-                    style: TextStyle(fontFamily: 'Ubuntu', color: Colors.black),
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -179,8 +182,7 @@ class ChatMessage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: new Text(this.name,
                     style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Ubuntu',
+                        color: Colors.white, 
                         fontWeight: FontWeight.bold)),
               ),
               Padding(
@@ -191,7 +193,6 @@ class ChatMessage extends StatelessWidget {
                     text,
                     style: TextStyle(
                       color: Colors.white,
-                      fontFamily: 'Ubuntu',
                     ),
                   ),
                 ),
@@ -207,7 +208,6 @@ class ChatMessage extends StatelessWidget {
           child: new Text(
             this.name[0],
             style: new TextStyle(
-                fontFamily: 'Ubuntu',
                 fontWeight: FontWeight.bold,
                 color: Colors.white),
           ),
