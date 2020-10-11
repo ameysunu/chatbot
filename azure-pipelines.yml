@@ -17,6 +17,9 @@ steps:
   displayName: 'Run Flutter Setup'
 
 - script: ./flutter/bin/flutter doctor
-  displayName: 'Flutter test'
+  displayName: 'Flutter Doctor'
+  
+- script: ./flutter/bin/flutter test
+  displayName: 'Flutter Test'
 
 
