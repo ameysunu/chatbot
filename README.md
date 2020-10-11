@@ -1,5 +1,7 @@
 # chatbot
 
+[![Build Status](https://dev.azure.com/ameypsunu2017/chatbot/_apis/build/status/ameysunu.chatbot?branchName=master)](https://dev.azure.com/ameypsunu2017/chatbot/_build/latest?definitionId=11&branchName=master)
+
 Chatbot using Flutter and DialogFlow
 
 ## Getting Started
