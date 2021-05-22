@@ -30,6 +30,7 @@
 .pub-cache/
 .pub/
 /build/
+/assets/dialog_flow_auth.json
 
 # Web related
 lib/generated_plugin_registrant.dart
