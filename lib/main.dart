@@ -1,228 +1,218 @@
+import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dialogflow/dialogflow_v2.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'DialogFlow and Flutter',
-      theme: ThemeData(),
-      darkTheme: ThemeData.dark(),
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: new HomePageDialogflow(),
+      title: 'Flutter Bot',
+      home: Home(),
     );
   }
 }
 
-class HomePageDialogflow extends StatefulWidget {
-  HomePageDialogflow({Key key, this.title}) : super(key: key);
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
 
-  final String title;
+class _HomeState extends State<Home> {
+  late DialogFlowtter dialogFlowtter;
+  final TextEditingController messageController = TextEditingController();
+
+  List<Map<String, dynamic>> messages = [];
 
   @override
-  _HomePageDialogflow createState() => new _HomePageDialogflow();
-}
-
-class _HomePageDialogflow extends State<HomePageDialogflow> {
-  final List<ChatMessage> _messages = <ChatMessage>[];
-  final TextEditingController _textController = new TextEditingController();
-
-  Widget _buildTextComposer() {
-    return new Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: new Row(
-        children: <Widget>[
-          new Flexible(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: new TextField(
-                controller: _textController,
-                onSubmitted: _handleSubmitted,
-                decoration:
-                    new InputDecoration.collapsed(hintText: "Send a message"),
-              ),
-            ),
-          ),
-          new Container(
-          margin: new EdgeInsets.symmetric(horizontal: 4.0),
-          child: new IconButton(
-              icon: new Icon(Icons.send),
-              onPressed: () => _handleSubmitted(_textController.text)),
-            ),
-        ],
-      ),
-    );
-  }
-
-  void Response(query) async {
-    _textController.clear();
-    AuthGoogle authGoogle =
-        await AuthGoogle(fileJson: "assets/credentials.json").build();
-    Dialogflow dialogflow =
-        Dialogflow(authGoogle: authGoogle, language: Language.english);
-    AIResponse response = await dialogflow.detectIntent(query);
-    ChatMessage message = new ChatMessage(
-      text: response.getMessage() ??
-          new CardDialogflow(response.getListMessage()[0]).title,
-      name: "Bot",
-      type: false,
-    );
-    setState(() {
-      _messages.insert(0, message);
-    });
-  }
-
-  void _handleSubmitted(String text) {
-    _textController.clear();
-    ChatMessage message = new ChatMessage(
-      text: text,
-      name: "Me",
-      type: true,
-    );
-    setState(() {
-      _messages.insert(0, message);
-    });
-    Response(text);
+  void initState() {
+    super.initState();
+    DialogFlowtter.fromFile().then((instance) => dialogFlowtter = instance);
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Theme.of(context).cardColor,
-        centerTitle: true,
-        title: new Text(
-          "Flutter Bot",
+    var themeValue = MediaQuery.of(context).platformBrightness;
+    return Scaffold(
+      backgroundColor: themeValue == Brightness.dark
+          ? HexColor('#262626')
+          : HexColor('#FFFFFF'),
+      appBar: AppBar(
+        backgroundColor: themeValue == Brightness.dark
+            ? HexColor('#3C3A3A')
+            : HexColor('#BFBFBF'),
+        title: Text(
+          'Flutter Bot',
           style: TextStyle(
-fontSize: 20, color: Colors.grey[600]),
+              color:
+                  themeValue == Brightness.dark ? Colors.white : Colors.black),
         ),
       ),
-      body: new Column(children: <Widget>[
-        new Flexible(
-            child: new ListView.builder(
-          padding: new EdgeInsets.all(8.0),
-          reverse: true,
-          itemBuilder: (_, int index) => _messages[index],
-          itemCount: _messages.length,
-        )),
-        new Divider(height: 1.0),
-        new Container(
-          decoration: new BoxDecoration(color: Theme.of(context).cardColor),
-          child: _buildTextComposer(),
-        ),
-      ]),
-    );
-  }
-}
-
-class ChatMessage extends StatelessWidget {
-  ChatMessage({this.text, this.name, this.type});
-
-  final String text;
-  final String name;
-  final bool type;
-
-  List<Widget> otherMessage(context) {
-    return <Widget>[
-      new Container(
-        margin: const EdgeInsets.only(right: 16.0),
-        child: new CircleAvatar(
-          child: new Text(
-            'B',
-            style: TextStyle(color: Colors.black),
-          ),
-          backgroundColor: Hexcolor('#E6E5EB'),
-        ),
-      ),
-      new Expanded(
-        child: Card(
-          elevation: 3,
-          color: Hexcolor('#E6E5EB'),
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: new Text(this.name,
-                    style: new TextStyle(
-                       
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(child: Body(messages: messages)),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
               ),
-              new Container(
-                margin: const EdgeInsets.only(top: 5.0),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                  child: new Text(
-                    text,
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ];
-  }
-
-  List<Widget> myMessage(context) {
-    return <Widget>[
-      new Expanded(
-        child: Card(
-          elevation: 3,
-          color: Hexcolor('#1982FC'),
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: new Text(this.name,
-                    style: TextStyle(
-                        color: Colors.white, 
-                        fontWeight: FontWeight.bold)),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 8),
-                child: new Container(
-                  margin: const EdgeInsets.only(top: 5.0),
-                  child: new Text(
-                    text,
-                    style: TextStyle(
-                      color: Colors.white,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: messageController,
+                      style: TextStyle(
+                          color: themeValue == Brightness.dark
+                              ? Colors.white
+                              : Colors.black,
+                          fontFamily: 'Poppins'),
+                      decoration: new InputDecoration(
+                        enabledBorder: new OutlineInputBorder(
+                            borderSide: new BorderSide(
+                                color: themeValue == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black),
+                            borderRadius: BorderRadius.circular(15)),
+                        hintStyle: TextStyle(
+                          color: themeValue == Brightness.dark
+                              ? Colors.white54
+                              : Colors.black54,
+                          fontSize: 15,
+                          fontStyle: FontStyle.italic,
+                        ),
+                        labelStyle: TextStyle(
+                            color: themeValue == Brightness.dark
+                                ? Colors.white
+                                : Colors.black),
+                        hintText: 'Send a message',
+                      ),
                     ),
                   ),
-                ),
+                  IconButton(
+                    color: themeValue == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
+                    icon: Icon(Icons.send),
+                    onPressed: () {
+                      sendMessage(messageController.text);
+                      messageController.clear();
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-      new Container(
-        margin: const EdgeInsets.only(left: 16.0),
-        child: new CircleAvatar(
-          backgroundColor: Hexcolor('#1982FC'),
-          child: new Text(
-            this.name[0],
-            style: new TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
-          ),
-        ),
-      ),
-    ];
+    );
+  }
+
+  void sendMessage(String text) async {
+    if (text.isEmpty) return;
+    setState(() {
+      addMessage(
+        Message(text: DialogText(text: [text])),
+        true,
+      );
+    });
+
+    DetectIntentResponse response = await dialogFlowtter.detectIntent(
+      queryInput: QueryInput(text: TextInput(text: text)),
+    );
+
+    if (response.message == null) return;
+    setState(() {
+      addMessage(response.message!);
+    });
+  }
+
+  void addMessage(Message message, [bool isUserMessage = false]) {
+    messages.add({
+      'message': message,
+      'isUserMessage': isUserMessage,
+    });
   }
 
   @override
+  void dispose() {
+    dialogFlowtter.dispose();
+    super.dispose();
+  }
+}
+
+class Body extends StatelessWidget {
+  final List<Map<String, dynamic>> messages;
+
+  const Body({
+    Key? key,
+    this.messages = const [],
+  }) : super(key: key);
+
+  @override
   Widget build(BuildContext context) {
-    return new Container(
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
-      child: new Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: this.type ? myMessage(context) : otherMessage(context),
+    return ListView.separated(
+      itemBuilder: (context, i) {
+        var obj = messages[messages.length - 1 - i];
+        Message message = obj['message'];
+        bool isUserMessage = obj['isUserMessage'] ?? false;
+        return Row(
+          mainAxisAlignment:
+              isUserMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _MessageContainer(
+              message: message,
+              isUserMessage: isUserMessage,
+            ),
+          ],
+        );
+      },
+      separatorBuilder: (_, i) => Container(height: 10),
+      itemCount: messages.length,
+      reverse: true,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 20,
+      ),
+    );
+  }
+}
+
+class _MessageContainer extends StatelessWidget {
+  final Message message;
+  final bool isUserMessage;
+
+  const _MessageContainer({
+    Key? key,
+    required this.message,
+    this.isUserMessage = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(maxWidth: 250),
+      child: LayoutBuilder(
+        builder: (context, constrains) {
+          return Container(
+            decoration: BoxDecoration(
+              color: isUserMessage ? Colors.blue : Colors.grey[800],
+              borderRadius: BorderRadius.circular(20),
+            ),
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              message.text?.text?[0] ?? '',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
