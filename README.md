@@ -1,6 +1,6 @@
 # chatbot
 
-[![Build Status](https://dev.azure.com/ameypsunu2017/chatbot/_apis/build/status/ameysunu.chatbot?branchName=master)](https://dev.azure.com/ameypsunu2017/chatbot/_build/latest?definitionId=11&branchName=master)
+[![Codemagic build status](https://api.codemagic.io/apps/5f2c218d8ff73d000bc11b85/5f2c218d8ff73d000bc11b84/status_badge.svg)](https://codemagic.io/apps/5f2c218d8ff73d000bc11b85/5f2c218d8ff73d000bc11b84/latest_build)
 
 Chatbot using Flutter and DialogFlow
 
